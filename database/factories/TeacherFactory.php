@@ -1,8 +1,9 @@
 <?php
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-
 use App\User;
+
+use App\Teacher;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
 
@@ -17,15 +18,16 @@ use Illuminate\Support\Str;
 |
 */
 
-$factory->define(User::class, function (Faker $faker) {
+//$user = User::where('rol', User::USER_TEACHER )->inRandomOrder()->first();
+
+$factory->define(Teacher::class, function (Faker $faker) {
+
+    $user = User::where('rol', User::USER_TEACHER )->inRandomOrder()->first();
+
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'email_verified_at' => now(),
-        'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-        'remember_token' => Str::random(10),
-        'image' => $faker->randomElement(['images_01.jpg','images_02.jpg','images_03.jpg','images_04.jpg','images_05.jpg']),
-        'rol' => $faker->randomElement([User::USER_STUDENT, User::USER_TEACHER]),
+        'titulo' => $faker->randomElement(['licenciado', 'Ingeniero', 'estudiante', 'profesor']),
+        'descripcion' => $faker->paragraph(1),
+        'zona' => $faker->randomElement(['recoleta', 'palermo', 'microcentro', 'almagro', 'retiro']),
+        'user_id' => $user->id,
     ];
 });
-

@@ -10,12 +10,18 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    const USER_VERIFIED = '1';
-    const USER_NO_VERIFIED = '0';
+    // const USER_VERIFIED = '1';
+    // const USER_NO_VERIFIED = '0';
 
     const USER_ADMIN = 'admin';
     const USER_TEACHER = 'teacher';
     const USER_STUDENT = 'student';
+
+
+    // $result = BD::table('users')->where('rol', 'teacher')->toSql();
+    // dd($result);
+
+    //protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -26,9 +32,8 @@ class User extends Authenticatable
         'name', 
         'email',
         'password',
-        'verified',
-        'verification_token',
-        'role',
+        'email_verified_at',
+        'rol',
     ];
 
     /**
@@ -52,9 +57,13 @@ class User extends Authenticatable
     ];
 
 
-    public function isVerified(){
-        return $this->verified == User:: USER_VERIFIED;
-    }
+    // public function isVerified(){
+    //     return $this->verified == User:: USER_VERIFIED;
+    // }
+
+    // public static function createVerificationToken(){
+    //     return str_random(30);
+    // }
 
     public function isAdmin(){
         return $this->role == User:: USER_ADMIN;
@@ -68,7 +77,14 @@ class User extends Authenticatable
         return $this->role == User:: USER_STUDENT;
     }
 
-    public static function createVerificationToken(){
-        return str_random(30);
+    
+    public function teacher(){
+        return $this->hasOne(Teacher::class);
     }
+
+    // public function teacher(){
+    //     return $this->hasOne(Teacher::class, 'user_id');
+    // }
+
+   
 }
